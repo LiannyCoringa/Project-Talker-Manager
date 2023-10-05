@@ -1,5 +1,6 @@
 const express = require('express');
 const readFile = require('./app');
+const generateToken = require('./utils/generateToken');
 
 const app = express();
 app.use(express.json());
@@ -30,6 +31,15 @@ app.get('/talker/:id', async (req, res) => {
     });
   }
   return res.status(200).json(talkerId);
+});
+
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
+  if (email === undefined || password === undefined) {
+    return res.status(401).json({ message: 'Campos ausentes' });
+  }
+  const token = generateToken();
+  return res.status(200).json({ token });
 });
 
 app.listen(PORT, () => {

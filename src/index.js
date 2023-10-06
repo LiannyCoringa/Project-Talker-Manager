@@ -9,6 +9,7 @@ const validateAge = require('./middlewares/validateAge');
 const validateTalk = require('./middlewares/validateTalk');
 const validateWatchedAt = require('./middlewares/validateWatchedAt');
 const validateRate = require('./middlewares/validateRate');
+const validateId = require('./middlewares/validateId');
 
 const app = express();
 app.use(express.json());
@@ -69,6 +70,33 @@ app.post('/talker',
     talker.push(newTalker);
     await fs.writeFile(talker);
     return res.status(201).json(newTalker);
+  });
+
+app.put('/talker/:id',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAt,
+  validateRate,
+  validateId,
+  async (req, res) => {
+    const { id } = req.params;
+    const { name, age, talk } = req.body;
+    const { watchedAt, rate } = talk;
+    const talker = await fs.readFile();
+    const talkerIndex = talker.findIndex((person) => person.id === Number(id));
+    talker[talkerIndex] = {
+      id: Number(id),
+      name,
+      age,
+      talk: {
+        watchedAt,
+        rate,
+      },
+    };
+    await fs.writeFile(talker);
+    res.status(200).json(talker[talkerIndex]);
   });
 
 app.listen(PORT, () => {

@@ -99,6 +99,15 @@ app.put('/talker/:id',
     res.status(200).json(talker[talkerIndex]);
   });
 
+app.delete('/talker/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  const talker = await fs.readFile();
+  const talkerIndex = talker.findIndex((person) => person.id === Number(id));
+  talker.splice(talkerIndex, 1);
+  await fs.writeFile(talker);
+  res.status(204).end();
+});
+
 app.listen(PORT, () => {
   console.log('Online');
 });

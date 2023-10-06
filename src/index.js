@@ -108,6 +108,19 @@ app.delete('/talker/:id', validateToken, async (req, res) => {
   res.status(204).end();
 });
 
+// app.get('/talker/search', validateToken, async (req, res) => {
+//   const { q } = req.query;
+//   const talker = await fs.readFile();
+//   const talkerName = await talker.filter((person) => person.name.includes(q));
+//   if (!q) {
+//     return res.status(200).json(talker);
+//   }
+//   if (talkerName.length === 0) {
+//     return res.status(200).json([]);
+//   }
+//   return res.status(200).json(talkerName);
+// });
+
 app.listen(PORT, () => {
   console.log('Online');
 });
